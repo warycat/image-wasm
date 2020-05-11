@@ -22,12 +22,11 @@ pub fn main_js() -> Result<(), JsValue> {
 }
 
 #[wasm_bindgen]
-pub fn grey(image_data: ImageData) -> ImageData {
+pub fn filter_image(image_data: ImageData, filter: String) -> ImageData {
     let w = image_data.width();
     let h = image_data.height();
     let data: Clamped<Vec<u8>> = image_data.data();
     let mut pimage = PhotonImage::new(data.to_vec(), w, h);
-    photon_rs::effects::tint(&mut pimage, 100, 20, 15);
-    // photon_rs::filters::filter(&mut pimage, "rosetint");
+    photon_rs::filters::filter(&mut pimage, &filter);
     pimage.get_image_data()
 }
